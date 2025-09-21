@@ -1,4 +1,4 @@
-const Card = ({ playerData, handleSelectPlayer }) => {
+const Card = ({ playerData, handleSelectPlayer, selectTrue, removePlayer }) => {
   return (
     <div className="card bg-base-300 w-96 shadow-sm">
       <figure>
@@ -24,12 +24,21 @@ const Card = ({ playerData, handleSelectPlayer }) => {
         </div>
         <div className="card-actions justify-between items-center">
           <div className="text-xl font-bold">Price: {playerData.price}</div>
-          <button
-            onClick={() => handleSelectPlayer(parseInt(playerData.price))}
-            className="font-bold btn"
-          >
-            Select Player
-          </button>
+          {selectTrue ? (
+            <button
+              onClick={() => removePlayer(playerData)}
+              className="font-bold btn"
+            >
+              Remove Player
+            </button>
+          ) : (
+            <button
+              onClick={() => handleSelectPlayer(playerData)}
+              className="font-bold btn"
+            >
+              Select Player
+            </button>
+          )}
         </div>
       </div>
     </div>

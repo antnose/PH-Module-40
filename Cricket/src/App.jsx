@@ -10,19 +10,29 @@ const fetchPlayers = async () => {
 };
 
 function App() {
-  const [coin, setCoin] = useState(60000000);
+  const [coin, setCoin] = useState(6000000);
   const players = fetchPlayers();
 
   const [toggle, setToggle] = useState(true);
+  const [selectedPlayer, setSelectedPlayer] = useState([]);
 
-  const handleSelectPlayer = (playerCoin) => {
+  const handleSelectPlayer = (playerData) => {
     // e.preventDefault();
-    console.log(playerCoin);
-    setCoin(coin - playerCoin);
+    console.log(playerData);
+    coin > playerData.price
+      ? setCoin(coin - playerData.price)
+      : alert("Please add balance");
+
+    setSelectedPlayer([...selectedPlayer, playerData]);
   };
 
   const handleToggle = (a) => {
     setToggle(a);
+  };
+
+  const removePlayer = (player) => {
+    const newSelPl = selectedPlayer.filter((p) => p.id !== player.id);
+    setSelectedPlayer(newSelPl);
   };
 
   return (
@@ -46,7 +56,7 @@ function App() {
             onClick={() => handleToggle(false)}
             className={!toggle ? "bg-amber-300 btn" : "btn"}
           >
-            Selected Players
+            Selected Players <span>{selectedPlayer.length}</span>
           </button>
         </div>
       </div>
@@ -72,7 +82,10 @@ function App() {
             </div>
           }
         >
-          <SelectedPlayers />
+          <SelectedPlayers
+            selectedPlayer={selectedPlayer}
+            removePlayer={removePlayer}
+          />
         </Suspense>
       )}
     </div>
